@@ -1,7 +1,15 @@
 stages:
+  - test
   - build
 
-docker-build:
+test:
+  stage: test
+  tags:
+      - shell
+  script:
+    - echo "Running tests"
+
+build-staging:
   image: docker:latest
   stage: build
   services:
@@ -11,3 +19,5 @@ docker-build:
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
     - docker push "$CI_REGISTRY_IMAGE"
+    only:
+    -  staging
