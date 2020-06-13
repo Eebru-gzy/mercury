@@ -1,34 +1,13 @@
-before_script:
-  - docker info
-
 stages:
-  - test
   - build
-  - deploy
 
-test:
-  stage: test
-  tags:
-      - shell
-  script:
-    - echo "Running tests"
-
-build-staging:
+docker-build:
+  image: docker:latest
   stage: build
-  tags:
-    - shell
+  services:
+    - docker:dind
+  before-script:
+    - echo $CI_BUILD_TOKEN | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
   script:
-    - docker build -t $IMAGE_NAME_LATEST -f Dockerfile .
-
-  only:
-    -  staging
-
-build-production:
-  stage: build
-  tags:
-    - shell
-  script:
-    - docker build -t $IMAGE_NAME_LATEST -f Dockerfile .
-
-  only:
-    -  master
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
