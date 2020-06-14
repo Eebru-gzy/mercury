@@ -1,6 +1,15 @@
+image: docker:latest
+
 stages:
   - test
   - build
+
+services:
+  - name: docker:dind
+
+
+# before_script:
+#   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
 
 test:
   stage: test
@@ -9,15 +18,16 @@ test:
   script:
     - echo "Running tests"
 
-build-staging:
-  image: docker:latest
-  stage: build
-  services:
-    - name: docker:dind
-  before_script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
-  script:
-    - docker build -t registry.gitlab.com/writersdormteam/$IMAGE_NAME_LATEST -f Dockerfile.k8s .
-    - docker push registry.gitlab.com/writersdormteam/$IMAGE_NAME_LATEST
-  only:
-  -  staging
+# build-staging:
+#   image: docker:latest
+#   stage: build
+#   variables:
+#     DOCKER_HOST: tcp://docker:2375/
+#     DOCKER_DRIVER: overlay2
+#     DOCKER_TLS_CERTDIR: ""
+
+#   script:
+#     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+#     - docker push "$CI_REGISTRY_IMAGE"
+  # only:
+  # -  staging
