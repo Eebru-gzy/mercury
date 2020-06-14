@@ -8,8 +8,8 @@ services:
   - name: docker:dind
 
 
-before_script:
-  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+# before_script:
+#   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
 
 test:
   stage: test
@@ -18,16 +18,16 @@ test:
   script:
     - echo "Running tests"
 
-build-staging:
-  image: docker:latest
-  stage: build
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
+# build-staging:
+#   image: docker:latest
+#   stage: build
+#   variables:
+#     DOCKER_HOST: tcp://docker:2375/
+#     DOCKER_DRIVER: overlay2
+#     DOCKER_TLS_CERTDIR: ""
 
-  script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-    - docker push "$CI_REGISTRY_IMAGE"
+#   script:
+#     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+#     - docker push "$CI_REGISTRY_IMAGE"
   # only:
   # -  staging
