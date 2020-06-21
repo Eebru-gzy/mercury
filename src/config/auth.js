@@ -1,23 +1,22 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-const secret = 'I am a secret'
+
+/*
+*handles password encryption and authentication
+* @params {String} bcryptHasher
+* @params {String} jwtCreate
+*/
+
 
 class authentication {
-
-  
-  bcryptHasher(password) {
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(password, salt, (err, hashed) => {
-        if (err) {
-          throw err;
-        }
-        return hashed
-      })
-    })
+  async bcryptHahser(password) {
+		const salt = await bcrypt.genSalt(process.env.BCRYPTSALT);
+    const bcryptPassword = await bcrypt.hash(password, salt);
+    return bcryptPassword;
   }
-
-
+  
   async bcryptCompare(bcryptHash, userPass) {
     const validPassword = await bcrypt.compare(bcryptHash, userPass);
 
@@ -30,7 +29,7 @@ class authentication {
     const payload = {
       user: userPayload,
     };
-    return jwt.sign(payload, secret, { expiresIn: 60 * 60 });
+    return jwt.sign(payload, process.env.JWTSECRET, { expiresIn: 60 * 60 });
   }
 
   jwtVerify(req, res) {
