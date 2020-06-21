@@ -1,6 +1,6 @@
 'use strict';
 
-const mutationFields = require('./')
+const mutationFields = require('./mutation_fields/mutation_fields')
 const queryFields =  require('./query_fields/query_fields')
 const { GraphQLObjectType, GraphQLSchema, } = require('graphql')
 
