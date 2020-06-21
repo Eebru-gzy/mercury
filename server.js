@@ -6,6 +6,7 @@ const app = express();
 const port = process.env.PORT || 8090;
 const expressGraphQL = require('express-graphql')
 const schema = require('./src/schema/schema')
+const logger = require('turbo-logger').createStream({})
 
 app.use('/graphql', expressGraphQL({
     schema: schema,
@@ -30,5 +31,5 @@ app.post('*', (req, res) => {
 const server = http.createServer(app);
 
 server.listen(port, () => {
-    console.log('server running on port ', port)
+    logger.log('server running on port ', port)
 })
