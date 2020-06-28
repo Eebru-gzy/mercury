@@ -40,9 +40,9 @@ exports.up = function(knex) {
       table.increments('id').primary();
       table.integer('user_id').unsigned().notNullable().references('id').inTable('users');
       table.integer('balance').unsigned().notNullable().defaultTo(0)
-      table.integer('account_number').unsigned().notNullable().defaultTo(0)
-      table.integer('bank_name').unsigned().notNullable().defaultTo(0)
-      table.integer('account_name').unsigned().notNullable().defaultTo(0)
+      table.string('account_number').unsigned().notNullable()
+      table.string('bank_name').unsigned().notNullable()
+      table.string('account_name').unsigned().notNullable()
       table.timestamps();
     })
     .createTableIfNotExists('wallet_logs', (table) => {
