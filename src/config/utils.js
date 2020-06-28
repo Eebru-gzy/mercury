@@ -31,9 +31,6 @@ module.exports = {
      * @param {Array} payload 
      */
     emptyArrayChecker: async (payload) => {
-        if(payload.length < 1 || payload == undefined || payload == null) {
-            return true
-        }
-        return false
+        return (payload.length < 1 || payload == undefined || payload == null)
     }
 }
