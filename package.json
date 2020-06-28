@@ -4,7 +4,10 @@
   "description": "The backend API for Venus",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "migrate": "NODE_PATH=. knex migrate:latest",
+    "seeds": "NODE_PATH=. knex seed:run"
   },
   "repository": {
     "type": "git",
@@ -18,11 +21,18 @@
   },
   "homepage": "https://gitlab.com/writersdormteam/mercury#readme",
   "dependencies": {
-    "bcrypt": "5.0.0",
+    "axios": "0.19.2",
+    "bcrypt": "4.0.1",
+    "bookshelf": "1.2.0",
     "dotenv": "8.2.0",
     "express": "4.17.1",
     "express-graphql": "0.9.0",
+    "graphql": "15.1.0",
+    "graphql-bookshelf": "1.1.0",
     "jsonwebtoken": "8.5.1",
-    "nodemon": "2.0.4"
+    "knex": "0.21.1",
+    "mysql": "2.18.1",
+    "nodemon": "2.0.4",
+    "turbo-logger": "1.1.9"
   }
 }

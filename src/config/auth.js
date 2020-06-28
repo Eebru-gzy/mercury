@@ -1,20 +1,54 @@
+'use strict';
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const config = require('./config');
+const logger = require('turbo-logger').createStream({});
 require('dotenv').config();
 
+
 class authentication {
-	/*
-	 *handles password encryption
-	 * @params {String} bcryptHasher
+
+
+
+	/**
+	 * Handles password encryption
+	 * @param {String} password 
 	 */
 	async bcryptHahser(password) {
-		const salt = await bcrypt.genSalt(process.env.BCRYPTSALT);
-		const bcryptPassword = await bcrypt.hash(password, salt);
-		return bcryptPassword;
+		try {
+			const salt = await bcrypt.genSalt(config.bcrypt_salt_rounds);
+			const bcryptPassword = await bcrypt.hash(password, salt);
+			return bcryptPassword;
+		}
+		catch(error) {
+			logger.error("could not hash password ",error)
+			return error;
+		}
 	}
-	/*
-	 * handles password compare with hash
-	 * @params {String, String} bcryptCompare
+
+
+
+	/**
+	 * 
+	 * @param {Object} req 
+	 * @param {Object} res 
+	 * @param {Function} next 
+	 */
+	async routeValidator(req, res, next) {
+		if(req.headers.hasOwnProperty('source') && (req.headers.source != 'login' 
+			|| req.headers.source != 'signup')) {
+			return next();
+		}
+		const jwtToken = req.headers.authorization ? req.headers.authorization : null;
+		return await this.jwtVerify(jwtToken);
+	}
+
+
+	/**
+	 * Handles password compare with hash
+	 * @param {String} bcryptHash 
+	 * @param {String} userPass 
 	 */
 	async bcryptCompare(bcryptHash, userPass) {
 		const validPassword = await bcrypt.compare(bcryptHash, userPass);
@@ -22,19 +56,26 @@ class authentication {
 			return res.status(401).json({ message: "Incorrect Password" });
 		}
 	}
-	/*
-	 * handles token creation
-	 * @params {String} jwtCreate
+	
+
+
+	/**
+	 * Handles JWT Creation
+	 * @param {Object} userPayload 
 	 */
 	jwtCreate(userPayload) {
 		const payload = {
 			user: userPayload,
 		};
-		return jwt.sign(payload, process.env.JWTSECRET, { expiresIn: 60 * 60 });
+		return jwt.sign(payload, config.auth_key, { expiresIn: 60 * 60 });
 	}
-	/*
-   * handles token verification
-	 * @params {Object, Object} jwtVerify
+
+
+	
+	/**
+	 * Handles Token Verification
+	 * @param {Object} req 
+	 * @param {Object} res 
 	 */
 	jwtVerify(req, res) {
 		try {
