@@ -1,10 +1,23 @@
 'use strict';
 
+const {
+    GraphQLString,
+    GraphQLNonNull,
+} = require('graphql');
+
+const UserType = require('../types/user').allUserFields
+
 module.exports = {
     //User queries goes here
-    dummy_function: function () {
+    getAllUser: () => {
         return {
-            dummy_response: true
+            type: UserType,
+            args: {
+                email: {type: new GraphQLNonNull(GraphQLString)},
+            },
+            resolve(value, args) {
+                //User Resolver action goes Here
+            }
         }
-    },
+    }
 }

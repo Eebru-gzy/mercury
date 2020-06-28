@@ -3,18 +3,18 @@ exports.up = function(knex) {
   return knex.schema
     .createTableIfNotExists('users', function(table) {
         table.increments('id').primary();
-        table.string('first_name').notNullable();
-        table.string('last_name').notNullable();
+        table.string('first_name').nullable();
+        table.string('last_name').nullable();
         table.string('email').notNullable();
         table.string('password').notNullable();
-        table.string('city').notNullable();
-        table.string('state').notNullable();
+        table.string('city').nullable();
+        table.string('state').nullable();
         table.string('middle_name').nullable();
-        table.string('phone_number').notNullable();
-        table.date('dob').notNullable().comment('The date of birth');
-        table.string('country').notNullable();
-        table.string('sex').notNullable();
-        table.string('age').notNullable();
+        table.string('phone_number').nullable();
+        table.date('dob').nullable().comment('The date of birth');
+        table.string('country').nullable();
+        table.string('sex').nullable();
+        table.string('age').nullable();
         table.timestamps();
     })
     .createTableIfNotExists('images', function(table) {

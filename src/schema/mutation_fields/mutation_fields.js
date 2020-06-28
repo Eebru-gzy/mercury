@@ -1,7 +1,7 @@
 'use strict';
 
-const Mutation = require('../mutations/dummy_mutation')
+const Mutation = require('../mutations/user')
 
 module.exports = {
-    dummyField: Mutation.dummy_function(),
+    user_registration: Mutation.registerUser()
 }
