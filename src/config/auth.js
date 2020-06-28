@@ -40,7 +40,7 @@ class authentication {
 			|| req.headers.source != 'signup')) {
 			return next();
 		}
-		const jwtToken = req.headers.authorization;
+		const jwtToken = req.headers.authorization ? req.headers.authorization : null;
 		return await this.jwtVerify(jwtToken);
 	}
 

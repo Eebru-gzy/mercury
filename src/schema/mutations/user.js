@@ -1,10 +1,6 @@
 'use strict';
 
-const {
-    GraphQLString,
-    GraphQLNonNull,
-} = require('graphql');
-
+const {GraphQLString, GraphQLNonNull, } = require('graphql');
 const UserType = require('../types/user').User
 const logger = require('turbo-logger').createStream({});
 const UserService = require('../../services/user');
