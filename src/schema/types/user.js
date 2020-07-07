@@ -1,7 +1,6 @@
 
 'use strict';
 
-const BookshelfType = require('graphql-bookshelf');
 const {
     GraphQLObjectType,
     GraphQLString,
@@ -15,9 +14,16 @@ const User = new GraphQLObjectType({
         email: {type: GraphQLString},
         phone_number: {type: GraphQLString},
         created_at: {type: GraphQLString},
-        update_at: {type: GraphQLString}
+        update_at: {type: GraphQLString},
     })
-})
+});
+
+const UserLogin = new GraphQLObjectType({
+	name: "userLogin",
+	fields: () => ({
+		token: { type: GraphQLString },
+	}),
+});
 
 const allUserFields = new GraphQLObjectType({
     name: 'AllUser',
@@ -27,9 +33,10 @@ const allUserFields = new GraphQLObjectType({
         firest_name: {type: GraphQLString},
         last_name: {type: GraphQLString}
     })
-})
+});
 
 module.exports = {
     User,
+    UserLogin,
     allUserFields
-}
+};

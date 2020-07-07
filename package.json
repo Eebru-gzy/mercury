@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "migrate": "NODE_PATH=. knex migrate:latest",
+    "dev": "nodemon server.js",
+    "migrate": "knex migrate:latest",
     "seeds": "NODE_PATH=. knex seed:run"
   },
   "repository": {
@@ -32,6 +33,8 @@
     "jsonwebtoken": "8.5.1",
     "knex": "0.21.1",
     "mysql": "2.18.1",
+    "mysql2": "2.1.0",
+    "mysqlx": "^1.1.7",
     "nodemon": "2.0.4",
     "turbo-logger": "1.1.9"
   }
