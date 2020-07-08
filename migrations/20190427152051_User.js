@@ -24,18 +24,16 @@ exports.up = function(knex) {
       table.string('format').notNullable();
       table.string('image_url').notNullable();
       table.string('original_filename').notNullable();
-      table.integer('uploaded_by').unsigned().notNullable();
-      table.foreign('uploaded_by', 'id').references('users');
+      table.integer('uploaded_by').unsigned().notNullable().references('id').inTable('users');
       table.timestamps();
     })
     .createTableIfNotExists('posts', function(table) {
       table.increments('id').primary();
+      table.integer('user_id').unsigned().notNullable().references('id').inTable('users');
       table.string('image_url').notNullable();
       table.string('public_id').notNullable();
       table.string('title').notNullable();
       table.text('content').notNullable();
-      table.integer('user_id').unsigned().notNullable()
-      table.foreign('user_id', 'id').references("users");
       table.timestamps();
     })
     .createTableIfNotExists('user_wallet', (table) => {

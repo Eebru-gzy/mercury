@@ -1,7 +1,5 @@
 "use strict";
 
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const Auth = require("../config/auth");
 const auth = new Auth();
 const UserModel = require("../models/user");
@@ -69,23 +67,20 @@ class User {
 							statusHelper.notFoundResponse(constants.USER_NOTFOUND_ERROR)
 						);
 					}
-					const checkPass = await bcrypt.compare(
+					const checkPass = await auth.bcryptCompare(
 						password,
 						parsedUser[0].password
 					);
 					if (!checkPass) {
 						 resolve("Incorrect Username or Password, give it another shot?")
 					} else {
-						const payload = { email };
-						jwt.sign(
-							payload,
-							process.env.JWTSECRET,
-							{ expiresIn: 1080000 },
-							(err, token) => {
-								if (err) throw err;
-								resolve(utils.parseJSON(token));
-							}
-						);
+            const payload = { email };
+            const token = await auth.jwtCreate(payload);
+            try {
+              resolve(utils.parseJSON(token));
+            } catch (error) {
+              this.logger.error("An error occured while generating token : ", error);
+            }
 					}
 				});
 		});

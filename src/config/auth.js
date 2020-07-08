@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('./config');
 const logger = require('turbo-logger').createStream({});
-require('dotenv').config();
 
 
 class authentication {
@@ -51,10 +50,13 @@ class authentication {
 	 * @param {String} userPass 
 	 */
 	async bcryptCompare(bcryptHash, userPass) {
+    try {
 		const validPassword = await bcrypt.compare(bcryptHash, userPass);
-		if (!validPassword) {
-			return res.status(401).json({ message: "Incorrect Password" });
-		}
+      return validPassword;
+    } catch (error) {
+      logger.error("could not hash password ", error);
+			return error;
+    }
 	}
 	
 

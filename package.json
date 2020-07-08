@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "migrate": "knex migrate:latest",
+    "migrate": "NODE_PATH=. knex migrate:latest",
     "seeds": "NODE_PATH=. knex seed:run"
   },
   "repository": {
